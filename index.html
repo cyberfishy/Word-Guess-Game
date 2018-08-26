@@ -1,13 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8" />
-    <title>Word Guess Game</title>
-    <link rel="stylesheet" type="text/css" href="_assets/css/style.css">
-    <script type="text/javascript" src="_assets/js/game.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-   
-</body>
+
+    <head>
+        <title>Mountains Hangman</title>
+        <script LANGUAGE="Javascript">
+            <!-- Array uses Pre text to create every character in steps from none to you lose -->
+            gallows = new Array("--------\n|      |\n|\n|\n|\n|\n=====",
+            "--------\n|      O\n|\n|\n|\n|\n=====",
+            "--------\n|      O\n|      |\n|\n|\n|\n=====",
+            "--------\n|      O\n|     \\|\n|\n|\n|\n=====",
+            "--------\n|      O\n|     \\|/\n|\n|\n|\n=====",
+            "--------\n|      O\n|     \\|/\n|      |\n|\n|\n=====",
+            "--------\n|      O\n|     \\|/\n|      |\n|     /\n|\n=====",
+            "--------\n|      O\n|     \\|/\n|      |\n|     / \\\n|\n=====")
+            <!-- 20 mountains listed from amongst the highest 50 -- some well-known, some not so well-known. -->
+            guessChoices = new
+            Array('Luzanne', 'Everest', 'Aconcagua', 'Denali', 'Kilimanjaro', 'Elbrus', 'Damavand', 'Chimborazo', 'Kinabalu', 'Rainier', 'Kangchenjunga', 'Shasta', 'Kenya', 'Fuji', 'Erebus', 'Ararat', 'Etna', 'Karisimbi', 'Whitney', 'Haleakala')
+            function initialize() {
+             guesses = 0
+             max = gallows.length-1
+             guessed = " "
+             len = guessChoices.length - 1
+             toGuess = guessChoices[Math.round(len*Math.random())].toUpperCase()
+             displayHangman()
+             displayToGuess()
+             displayGuessed()
+            }
+            function buildIt() {
+             document.game.elements[3].focus()
+             alert("Don't mess with this form element!")
+            }
+            function displayHangman() {
+             document.game.status.value=gallows[guesses]
+            }
+            function displayToGuess() {
+             pattern=""
+             for(i=0;i<toGuess.length;++i) {
+              if(guessed.indexOf(toGuess.charAt(i)) != -1)
+               pattern += (toGuess.charAt(i)+" ")
+              else pattern += "_ "
+             }
+             document.game.toGuess.value=pattern
+            }
+            function displayGuessed() {
+             document.game.guessed.value=guessed
+            }
+            function badGuess(s) {
+             if(toGuess.indexOf(s) == -1) return true
+             return false
+            }
+            function winner() {
+             for(i=0;i<toGuess.length;++i) {
+              if(guessed.indexOf(toGuess.charAt(i)) == -1) return false
+             }
+             return true
+            }
+            function guess(s){
+             if(guessed.indexOf(s) == -1) guessed = s + guessed
+             if(badGuess(s)) ++guesses
+             displayHangman()
+             displayToGuess()
+             displayGuessed()
+             if(guesses >= max){
+             alert("You're dead. The word you missed was "+toGuess+".")
+              initialize()
+             }
+             if(winner()) {
+              alert("You won! Your mountain was " + toGuess + ".")
+              initialize()
+             }
+            }
+            // -->
+        </script>
+    </head>
+    
+    <body>
+        <h1>Mountains Hangman</h1>
+        <form NAME="game">
+            <pre>
+    <textarea name="status" rows="7" cols="16"
+     onfocus="buildIt()"></textarea>
+            </pre>
+            <P>
+                <input type="text" name="toGuess" onfocus="buildIt()"> Mountain name to solve
+                <br>
+                <input type="text" name="guessed" onfocus="buildIt()"> Letters used so far
+                <br>
+                <!-- Yeah I could have built a for-if loop instead of this -- I tried and couldn't make it work -->
+                <p>Enter your next guess.</p>
+                <input type="button" value=" A " onclick="guess('A')">
+                <input type="button" value=" B " onclick="guess('B')">
+                <input type="button" value=" C " onclick="guess('C')">
+                <input type="button" value=" D " onclick="guess('D')">
+                <input type="button" value=" E " onclick="guess('E')">
+                <input type="button" value=" F " onclick="guess('F')">
+                <input type="button" value=" G " onclick="guess('G')">
+                <input type="button" value=" H " onclick="guess('H')">
+                <input type="button" value=" I " onclick="guess('I')">
+                <input type="button" value=" J " onclick="guess('J')">
+                <input type="button" value=" K " onclick="guess('K')">
+                <input type="button" value=" L " onclick="guess('L')">
+                <input type="button" value=" M " onclick="guess('M')"><br />
+                <input type="button" value=" N " onclick="guess('N')">
+                <input type="button" value=" O " onclick="guess('O')">
+                <input type="button" value=" P " onclick="guess('P')">
+                <input type="button" value=" Q " onclick="guess('Q')">
+                <input type="button" value=" R " onclick="guess('R')">
+                <input type="button" value=" S " onclick="guess('S')">
+                <input type="button" value=" T " onclick="guess('T')">
+                <input type="button" value=" U " onclick="guess('U')">
+                <input type="button" value=" V " onclick="guess('V')">
+                <input type="button" value=" W " onclick="guess('W')">
+                <input type="button" value=" X " onclick="guess('X')">
+                <input type="button" value=" Y " onclick="guess('Y')">
+                <input type="button" value=" Z " onclick="guess('Z')">
+                <P>
+                    <input type="button" NAME="restart" value="---- Start Again ----" onclick="initialize()">
+                    <script LANGUAGE="Javascript">
+                        <!--
+                        initialize()
+                        // -->
+                    </script>
+        </form>
+    </body>
+    
 </html>
